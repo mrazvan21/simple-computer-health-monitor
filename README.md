@@ -1,1 +1,1 @@
-Slim framework and doctrine
+Slim framework

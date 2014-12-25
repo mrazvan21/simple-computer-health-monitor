@@ -28,7 +28,15 @@ $helpers = new Symfony\Component\Console\Helper\HelperSet(array(
     'em' => new \Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper($em)
 ));
 
+$app->get('/', function() {
+    echo "index";
+});
+
 $app->get('/users', function() {
+    echo "test";
+});
+
+$app->get('users', function() {
     echo "test";
 });
 
