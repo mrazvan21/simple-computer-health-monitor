@@ -8,7 +8,9 @@ class IssueMonitoring implements MonitoringInterface
 
     public static function getData()
     {
-        return shell_exec('/usr/bin/lsb_release -ds;/bin/uname -r');
+        return array(
+            'issue' => shell_exec('/usr/bin/lsb_release -ds;/bin/uname -r')
+        );
     }
 
 } 

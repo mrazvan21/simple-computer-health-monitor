@@ -2,7 +2,7 @@
 
 namespace App\Monitoring;
 
-class CpuIntensiveProcesses implements MonitoringInterface
+class CpuIntensiveProcessesMonitoring implements MonitoringInterface
 {
     const MONITORING_TYPE = 'cpu-intensive-processes';
 

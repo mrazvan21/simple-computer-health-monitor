@@ -17,7 +17,10 @@ $resources = array(
     '\App\Monitoring\MemoryInfoMonitoring',
     '\App\Monitoring\LoadAvgMonitoring',
     '\App\Monitoring\DiskPartitionsMonitoring',
-    '\App\Monitoring\CpuIntensiveProcesses'
+    '\App\Monitoring\CpuIntensiveProcessesMonitoring',
+    '\App\Monitoring\IssueMonitoring',
+    '\App\Monitoring\HostnameMonitoring',
+    '\App\Monitoring\TimeMonitoring',
 );
 
 $monitoringCollection = new \App\MonitoringCollection();
