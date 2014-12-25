@@ -2,42 +2,33 @@
 
 require 'vendor/autoload.php';
 
-use Doctrine\ORM\Tools\Setup;
-use Doctrine\ORM\EntityManager;
 use Slim\Slim;
 
 $app = new Slim();
 
-$path = array('src/Entity');
-$devMode = true;
+$response = new \App\Response($app);
+$response->setHeader("Content-Type", "application/json");
 
-$config = Setup::createAnnotationMetadataConfiguration($path, $devMode);
-
-$connectionOptions = array(
-    'driver'   => 'pdo_mysql',
-    'host'     => 'localhost',
-    'dbname'   => 'aso',
-    'user'     => 'root',
-    'password' => 'root',
+$resources = array(
+    '\App\Monitoring\BandwidthMonitoring',
+    '\App\Monitoring\CpuInfoMonitoring',
+    '\App\Monitoring\UptimeMonitoring',
+    '\App\Monitoring\CurrentRamMonitoring',
+    '\App\Monitoring\MemoryInfoMonitoring',
+    '\App\Monitoring\LoadAvgMonitoring',
+    '\App\Monitoring\DiskPartitionsMonitoring',
+    '\App\Monitoring\CpuIntensiveProcesses'
 );
 
-$em = \Doctrine\ORM\EntityManager::create($connectionOptions, $config);
+$monitoringCollection = new \App\MonitoringCollection();
+$monitoringCollection->addCollection($resources);
 
-$helpers = new Symfony\Component\Console\Helper\HelperSet(array(
-    'db' => new \Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper($em->getConnection()),
-    'em' => new \Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper($em)
-));
-
-$app->get('/', function() {
-    echo "index";
-});
-
-$app->get('/users', function() {
-    echo "test";
-});
-
-$app->get('users', function() {
-    echo "test";
-});
+foreach ($monitoringCollection as $resource) {
+    $app->get('/'.$resource::MONITORING_TYPE, function() use ($resource, $response) {
+        echo $response->send(
+            $resource::getData()
+        );
+    });
+}
 
 $app->run();
